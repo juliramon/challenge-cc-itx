@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
-
 import { Routes, Route } from "react-router-dom";
 import Podcasts from "./pages/Podcasts";
 import Podcast from "./pages/Podcast";
+import Layout from "./components/layouts/Layout";
 
 const App = () => {
   const cacheTime = 60 * 24 * (60 * 1000); // 24 hours
@@ -30,8 +30,10 @@ const App = () => {
     <main className="app">
       <QueryClientProvider client={queryClient}>
         <Routes>
-          <Route index path="/" element={<Podcasts />} />
-          <Route path="podcasts/:id" element={<Podcast />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Podcasts />} />
+            <Route path="/podcasts/:id" element={<Podcast />} />
+          </Route>
         </Routes>
       </QueryClientProvider>
     </main>

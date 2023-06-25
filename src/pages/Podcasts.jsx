@@ -1,18 +1,18 @@
-import React from "react";
-import PodcastsService from "../services/podcastsService";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import PodcastsService from "../services/podcastsService";
 import PodcastSkeleton from "../components/miniatures/PodcastSkeleton";
 import Podcast from "../components/miniatures/Podcast";
 
 const Podcasts = () => {
   const service = new PodcastsService();
+
   const [podcasts, setPodcasts] = useState({
     data: [],
     entries: [],
     filteredPodcasts: [],
   });
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const { isLoading, data, status, error } = useQuery(
@@ -25,7 +25,7 @@ const Podcasts = () => {
   );
 
   useEffect(() => {
-    if (status === "success") {
+    if (!isLoading && podcasts.entries.length === 0) {
       const { contents } = data;
       const { feed } = JSON.parse(contents);
       const { entry } = feed;
@@ -35,9 +35,10 @@ const Podcasts = () => {
         data: feed,
         entries: entry,
         filteredPodcasts: entry,
+        success: true,
       });
     }
-  }, [status]);
+  }, [isLoading, podcasts]);
 
   useEffect(() => {
     const filteredPodcasts = podcasts.entries.filter(
@@ -52,14 +53,8 @@ const Podcasts = () => {
   if (error) return "An error has occurred. Please try again later.";
 
   return (
-    <section className="py-12">
+    <section className="pb-12">
       <div className="container">
-        <div className="border-b border-slate-300 pb-4">
-          <Link to={"#"} title="Podcaster">
-            <h1>Podcaster</h1>
-          </Link>
-        </div>
-
         <div className="flex items-center justify-end mt-8">
           <span className="bg-blue-600 inline-flex items-center text-white rounded-full font-semibold px-2.5 py-0.5 mr-2">
             {podcasts.filteredPodcasts.length}
