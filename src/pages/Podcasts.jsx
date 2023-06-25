@@ -55,7 +55,7 @@ const Podcasts = () => {
     <section className="py-12">
       <div className="container">
         <div className="border-b border-slate-300 pb-4">
-          <Link href={"#"} title="Podcaster">
+          <Link to={"#"} title="Podcaster">
             <h1>Podcaster</h1>
           </Link>
         </div>

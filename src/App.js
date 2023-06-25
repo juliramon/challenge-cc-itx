@@ -4,6 +4,7 @@ import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persist
 
 import { Routes, Route } from "react-router-dom";
 import Podcasts from "./pages/Podcasts";
+import Podcast from "./pages/Podcast";
 
 const App = () => {
   const cacheTime = 60 * 24 * (60 * 1000); // 24 hours
@@ -29,9 +30,8 @@ const App = () => {
     <main className="app">
       <QueryClientProvider client={queryClient}>
         <Routes>
-          <Route>
-            <Route index element={<Podcasts />} />
-          </Route>
+          <Route index path="/" element={<Podcasts />} />
+          <Route path="podcasts/:id" element={<Podcast />} />
         </Routes>
       </QueryClientProvider>
     </main>

@@ -9,9 +9,10 @@ const Podcast = ({ data }) => {
   const images = data["im:image"];
   const image = checkElementImages(images);
   const artist = data["im:artist"] ? data["im:artist"].label : "-";
+  const id = data["id"]?.["attributes"]?.["im:id"];
 
   return (
-    <Link href={`#`} className="w-full pt-10 h-full block">
+    <Link to={`/podcasts/${id}`} className="w-full pt-10 h-full block">
       <div className="border border-gray-200 rounded p-6 h-full shadow-md">
         {images.length === 0 || image === null ? (
           <AvatarSkeleton />
