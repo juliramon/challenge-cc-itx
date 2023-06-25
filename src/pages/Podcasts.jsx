@@ -20,7 +20,6 @@ const Podcasts = () => {
       setPodcasts({ ...podcasts, isFetching: true });
 
       const { contents, status } = await service.getPodcasts();
-      console.log(contents);
       const { feed } = JSON.parse(contents);
       const { entry } = feed;
 
