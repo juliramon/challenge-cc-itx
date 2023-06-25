@@ -1,7 +1,8 @@
 import React from "react";
 import AvatarSkeleton from "../avatars/AvatarSkeleton";
 import Avatar from "../avatars/Avatar";
-import checkElementImages from "../../utils/helpers";
+import { checkElementImages } from "../../utils/helpers";
+import { Link } from "react-router-dom";
 
 const Podcast = ({ data }) => {
   const title = data.title ? data.title.label : "-";
@@ -10,7 +11,7 @@ const Podcast = ({ data }) => {
   const artist = data["im:artist"] ? data["im:artist"].label : "-";
 
   return (
-    <div className="w-full pt-10 h-full">
+    <Link href={`#`} className="w-full pt-10 h-full block">
       <div className="border border-gray-200 rounded p-6 h-full shadow-md">
         {images.length === 0 || image === null ? (
           <AvatarSkeleton />
@@ -22,7 +23,7 @@ const Podcast = ({ data }) => {
           Author: {artist}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

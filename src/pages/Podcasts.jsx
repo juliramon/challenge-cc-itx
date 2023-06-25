@@ -2,6 +2,7 @@ import React from "react";
 import PodcastsService from "../services/podcastsService";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import PodcastSkeleton from "../components/miniatures/PodcastSkeleton";
 import Podcast from "../components/miniatures/Podcast";
 
@@ -15,27 +16,30 @@ const Podcasts = () => {
     entries: [],
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setPodcasts({ ...podcasts, isFetching: true });
+  const { isLoading, data, status, error } = useQuery(
+    ["podcasts"],
+    service.getPodcasts,
+    {
+      staleTime: 60 * 24 * (60 * 1000), // 24 hours
+      cacheTime: 60 * 24 * (60 * 1000), // 24 hours
+    }
+  );
 
-      const { contents, status } = await service.getPodcasts();
+  useEffect(() => {
+    if (status === "success") {
+      const { contents } = data;
       const { feed } = JSON.parse(contents);
       const { entry } = feed;
 
-      if (status.http_code === 200 && feed) {
-        setPodcasts({
-          ...podcasts,
-          isFetching: false,
-          hasData: true,
-          data: feed,
-          entries: entry,
-        });
-      }
-    };
+      setPodcasts({
+        ...podcasts,
+        data: feed,
+        entries: entry,
+      });
+    }
+  }, [status]);
 
-    fetchData();
-  }, []);
+  if (error) return "An error has occurred. Please try again later.";
 
   return (
     <section className="py-12">
@@ -47,7 +51,7 @@ const Podcasts = () => {
         </div>
 
         <div className="flex flex-wrap items-stretch -mx-4 mt-8">
-          {podcasts.isFetching && podcasts.entries.length === 0
+          {isLoading
             ? [...Array(8).keys()].map((el, idx) => (
                 <article
                   className="w-full sm:w-1/2 lg:w-1/4 px-4 mb-8"

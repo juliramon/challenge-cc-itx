@@ -12,11 +12,7 @@ class PodcastsService {
     });
   }
 
-  getPodcasts = () =>
-    this.service
-      .get()
-      .then((res) => res.data)
-      .catch((error) => console.error(error));
+  getPodcasts = () => this.service.get().then((res) => res.data);
 }
 
 export default PodcastsService;
