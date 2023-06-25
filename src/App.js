@@ -1,11 +1,16 @@
-function App() {
+import { Routes, Route } from "react-router-dom";
+import Podcasts from "./pages/Podcasts";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>CC Code Challenge</h1>
-      </header>
-    </div>
+    <main className="app">
+      <Routes>
+        <Route>
+          <Route index element={<Podcasts />} />
+        </Route>
+      </Routes>
+    </main>
   );
-}
+};
 
 export default App;
