@@ -1,0 +1,9 @@
+@layer base
+    input[type="text"], select, textarea
+        @apply border border-gray-400 rounded px-4 py-1.5 mb-0 outline-none transition-all duration-300 ease-in-out
+
+        &:focus, &:focus-visible
+            @apply ring-1 ring-blue-600
+
+    input::placeholder
+        @apply text-sm

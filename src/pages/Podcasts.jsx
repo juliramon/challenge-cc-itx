@@ -9,12 +9,11 @@ import Podcast from "../components/miniatures/Podcast";
 const Podcasts = () => {
   const service = new PodcastsService();
   const [podcasts, setPodcasts] = useState({
-    message: "",
-    isFetching: false,
-    hasData: false,
     data: [],
     entries: [],
+    filteredPodcasts: [],
   });
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { isLoading, data, status, error } = useQuery(
     ["podcasts"],
@@ -35,9 +34,20 @@ const Podcasts = () => {
         ...podcasts,
         data: feed,
         entries: entry,
+        filteredPodcasts: entry,
       });
     }
   }, [status]);
+
+  useEffect(() => {
+    const filteredPodcasts = podcasts.entries.filter(
+      (podcast) =>
+        podcast?.title?.label.toLowerCase().includes(searchQuery) ||
+        podcast?.artist?.label.toLowerCase().includes(searchQuery)
+    );
+
+    setPodcasts({ ...podcasts, filteredPodcasts: filteredPodcasts });
+  }, [searchQuery]);
 
   if (error) return "An error has occurred. Please try again later.";
 
@@ -50,6 +60,25 @@ const Podcasts = () => {
           </Link>
         </div>
 
+        <div className="flex items-center justify-end mt-8">
+          <span className="bg-blue-600 inline-flex items-center text-white rounded-full font-semibold px-2.5 py-0.5 mr-2">
+            {podcasts.filteredPodcasts.length}
+          </span>
+
+          <form onSubmit={(e) => e.preventDefault()}>
+            <fieldset>
+              <input
+                type="text"
+                name="searchQuery"
+                id="searchQuery"
+                placeholder="Filter podcasts..."
+                onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
+                value={searchQuery}
+              />
+            </fieldset>
+          </form>
+        </div>
+
         <div className="flex flex-wrap items-stretch -mx-4 mt-8">
           {isLoading
             ? [...Array(8).keys()].map((el, idx) => (
@@ -60,7 +89,7 @@ const Podcasts = () => {
                   <PodcastSkeleton />
                 </article>
               ))
-            : podcasts.entries.map((el, idx) => (
+            : podcasts.filteredPodcasts.map((el, idx) => (
                 <article
                   className="w-full sm:w-1/2 lg:w-1/4 px-4 mb-8"
                   key={idx}
