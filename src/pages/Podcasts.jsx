@@ -50,7 +50,10 @@ const Podcasts = () => {
     setPodcasts({ ...podcasts, filteredPodcasts: filteredPodcasts });
   }, [searchQuery]);
 
-  if (error) return "An error has occurred. Please try again later.";
+  if (error)
+    console.error(
+      "An error has occurred. Please try again later:" + error.message
+    );
 
   return (
     <section className="pb-12">

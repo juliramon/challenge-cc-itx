@@ -32,7 +32,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Podcasts />} />
-            <Route path="/podcasts/:id" element={<Podcast />} />
+            <Route path="/podcast/:id" element={<Podcast />} />
           </Route>
         </Routes>
       </QueryClientProvider>

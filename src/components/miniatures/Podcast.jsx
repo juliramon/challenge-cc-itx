@@ -12,7 +12,7 @@ const Podcast = ({ data }) => {
   const id = data["id"]?.["attributes"]?.["im:id"];
 
   return (
-    <Link to={`/podcasts/${id}`} className="w-full pt-10 h-full block">
+    <Link to={`/podcast/${id}`} className="w-full pt-10 h-full block">
       <div className="border border-gray-200 rounded p-6 h-full shadow-md">
         {images.length === 0 || image === null ? (
           <AvatarSkeleton />
