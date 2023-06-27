@@ -15,7 +15,7 @@ export function checkElementImages(arrImages) {
 }
 
 /**
- * ConvertDateTimeToDate
+ * formatDateTimeToISODate
  * Utility function to convert datetime values to formatted date
  *
  * The function expects one parameter:
@@ -23,21 +23,23 @@ export function checkElementImages(arrImages) {
  * @return string
  */
 
-export function convertDateTimeToDate(dateTime) {
+export function formatDateTimeToISODate(dateTime) {
   return new Date(dateTime).toLocaleDateString();
 }
 
-/** convertMillisecondsToMinutesAndSeconds
+/** formatMsToISODuration
  * Utilit function to converte milliseconds values to formatted value
  *
  * The function expects one parameter:
  * @param string msTime: The raw milliseconds value
  * @return string
  */
-export function convertMillisecondsToMinutesAndSeconds(msTime) {
-  const minutes = Math.floor(msTime / (60 * 1000));
-  const seconds = ((msTime % 6000) / 1000).toFixed(0);
-  return seconds == 60
-    ? minutes + 1 + ":00"
-    : minutes + ":" + (seconds < 10 ? "0" : 0) + seconds;
+export function formatMsToISODuration(msTime) {
+  const date = new Date(Date.UTC(0, 0, 0, 0, 0, 0, msTime));
+  const dateElements = [
+    date.getUTCHours(),
+    date.getUTCMinutes(),
+    date.getUTCSeconds(),
+  ];
+  return dateElements.map((s) => String(s).padStart(2, "0")).join(":");
 }

@@ -3,8 +3,8 @@ import PodcastsService from "../services/podcastsService";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import {
-  convertDateTimeToDate,
-  convertMillisecondsToMinutesAndSeconds,
+  formatDateTimeToISODate,
+  formatMsToISODuration,
 } from "../utils/helpers";
 
 const Podcast = () => {
@@ -43,7 +43,7 @@ const Podcast = () => {
     );
 
   return (
-    <section className="mt-8">
+    <section className="py-8">
       <div className="container">
         <div className="flex flex-wrap -mx-4">
           <aside className="w-full md:w-3/12 px-4">
@@ -105,14 +105,14 @@ const Podcast = () => {
                     <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-36"></div>
                   </div>
                 ) : (
-                  <div className="">
+                  <>
                     <h4 className="font-bold">Description</h4>
                     <div className="text-block">
                       {podcast.data?.description
                         ? podcast.data.description
                         : "-"}
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
             </div>
@@ -121,10 +121,10 @@ const Podcast = () => {
             <div className="shadow-md rounded px-5 py-3">
               <div className="flex items-center">
                 {isLoading ? (
-                  <>
-                    <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 w-56 animate-pulse mr-3"></div>
-                    <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 w-10 animate-pulse"></div>
-                  </>
+                  <div className="animate-pulse">
+                    <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 w-56 mr-3"></div>
+                    <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 w-10"></div>
+                  </div>
                 ) : (
                   <div className="flex items-center text-xl">
                     <h2 className="my-0 font-bold">Episodes:</h2>
@@ -153,12 +153,12 @@ const Podcast = () => {
                   ))}
                 </div>
               ) : (
-                <div class="relative overflow-x-auto">
-                  <table class="w-full text-sm text-left text-gray-500 0">
-                    <thead class="text-xs border-b border-gray-300">
+                <div className="relative overflow-x-auto">
+                  <table className="w-full text-sm text-left text-gray-500">
+                    <thead className="text-xs border-b border-gray-300">
                       <tr>
                         {["Title", "Date", "Duration"].map((el, idx) => (
-                          <th key={idx} scope="col" class="px-6 py-3">
+                          <th key={idx} scope="col" className="px-6 py-3">
                             {el}
                           </th>
                         ))}
@@ -169,31 +169,40 @@ const Podcast = () => {
                         return (
                           <tr
                             key={el.trackId}
-                            class={`border-b ${
+                            className={`border-b ${
                               idx % 2 ? "bg-white" : "bg-gray-50"
                             }`}
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              <Link to={"/"} title={el.trackName}>
+                              <Link
+                                to={`/podcast/${id}/episode/${el.trackId}`}
+                                title={el.trackName}
+                              >
                                 {el.trackName}
                               </Link>
                             </th>
-                            <td class="px-6 py-4">
-                              {convertDateTimeToDate(el.releaseDate)}
+                            <td className="px-6 py-4">
+                              {formatDateTimeToISODate(el.releaseDate)}
                             </td>
-                            <td class="px-6 py-4">
-                              {convertMillisecondsToMinutesAndSeconds(
-                                el.trackTimeMillis
-                              )}
+                            <td className="px-6 py-4">
+                              {formatMsToISODuration(el.trackTimeMillis)}
                             </td>
                           </tr>
                         );
                       })}
                     </tbody>
                   </table>
+                  <legend className="text-gray-500 text-xs mt-4">
+                    A list of 20 episodes of the "
+                    <span className="inline-block underline">
+                      {podcast.data.trackName}
+                    </span>
+                    " podcast is displayed above following the API endpoint
+                    parameter limit.
+                  </legend>
                 </div>
               )}
             </div>
