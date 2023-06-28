@@ -7,7 +7,7 @@ import {
   formatMsToISODuration,
 } from "../utils/helpers";
 
-const Podcast = () => {
+const Podcast = ({ setLoader }) => {
   const service = new PodcastsService();
   const { id } = useParams();
 
@@ -24,6 +24,8 @@ const Podcast = () => {
   );
 
   useEffect(() => {
+    setLoader(false);
+
     if (
       !isLoading &&
       Object.keys(podcast).length === 0 &&

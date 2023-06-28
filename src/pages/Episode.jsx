@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import PodcastsService from "../services/podcastsService";
 
-const Episode = () => {
+const Episode = ({ setLoader }) => {
   const service = new PodcastsService();
   const queryClient = new useQueryClient();
 
@@ -26,6 +26,8 @@ const Episode = () => {
   console.log(isFetched);
 
   useEffect(() => {
+    setLoader(false);
+
     if (
       Object.keys(episode).length === 0 &&
       Object.keys(podcast).length === 0

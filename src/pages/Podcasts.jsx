@@ -4,7 +4,7 @@ import PodcastsService from "../services/podcastsService";
 import PodcastSkeleton from "../components/miniatures/PodcastSkeleton";
 import Podcast from "../components/miniatures/Podcast";
 
-const Podcasts = () => {
+const Podcasts = ({ setLoader }) => {
   const service = new PodcastsService();
 
   const [podcasts, setPodcasts] = useState({
@@ -25,6 +25,8 @@ const Podcasts = () => {
   );
 
   useEffect(() => {
+    setLoader(false);
+
     if (!isLoading && podcasts.entries.length === 0) {
       const { contents } = data;
       const { feed } = JSON.parse(contents);
