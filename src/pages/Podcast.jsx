@@ -11,12 +11,10 @@ const Podcast = () => {
   const service = new PodcastsService();
   const { id } = useParams();
 
-  const [podcast, setPodcast] = useState({
-    data: [],
-    episodes: [],
-  });
+  const [podcast, setPodcast] = useState({});
+  const [episodes, setEpisodes] = useState([]);
 
-  const { isLoading, data, status, error } = useQuery(
+  const { isLoading, data, error } = useQuery(
     ["podcast", id],
     () => service.getPodcastById(id),
     {
@@ -26,16 +24,17 @@ const Podcast = () => {
   );
 
   useEffect(() => {
-    if (!isLoading && podcast.data.length === 0) {
+    if (
+      !isLoading &&
+      Object.keys(podcast).length === 0 &&
+      episodes.length === 0
+    ) {
       const contents = JSON.parse(data.contents).results;
 
-      setPodcast({
-        ...podcast,
-        data: contents.slice(0, 1)[0],
-        episodes: contents.slice(1),
-      });
+      setPodcast(contents[0]);
+      setEpisodes(contents.slice(1));
     }
-  }, [isLoading, podcast]);
+  }, [isLoading, podcast, episodes]);
 
   if (error)
     console.error(
@@ -64,7 +63,7 @@ const Podcast = () => {
                 <div className="flex items-center justify-center mx-auto w-48 h-48 mb-4 bg-gray-300 rounded overflow-hidden">
                   <picture className="block w-48 h-48">
                     <img
-                      src={podcast.data.artworkUrl600}
+                      src={podcast.artworkUrl600}
                       alt=""
                       width={48}
                       height={48}
@@ -85,12 +84,12 @@ const Podcast = () => {
                   <ul className="list-none m-0 p-0">
                     <li>
                       <h3 className="font-bold text-lg">
-                        {podcast.data.collectionName}
+                        {podcast.collectionName}
                       </h3>
                     </li>
                     <li>
-                      <span className="text-gray-600 italic">
-                        by {podcast.data.artistName}
+                      <span className="text-gray-600 italic inline-block">
+                        by {podcast.artistName}
                       </span>
                     </li>
                   </ul>
@@ -108,9 +107,7 @@ const Podcast = () => {
                   <>
                     <h4 className="font-bold">Description</h4>
                     <div className="text-block">
-                      {podcast.data?.description
-                        ? podcast.data.description
-                        : "-"}
+                      {podcast?.description ? podcast.description : "-"}
                     </div>
                   </>
                 )}
@@ -122,13 +119,13 @@ const Podcast = () => {
               <div className="flex items-center">
                 {isLoading ? (
                   <div className="animate-pulse">
-                    <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 w-56 mr-3"></div>
+                    <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 w-56 mr-3 mb-2.5"></div>
                     <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 w-10"></div>
                   </div>
                 ) : (
                   <div className="flex items-center text-xl">
                     <h2 className="my-0 font-bold">Episodes:</h2>
-                    <span className="ml-2">{podcast.data.trackCount}</span>
+                    <span className="ml-2">{podcast.trackCount}</span>
                   </div>
                 )}
               </div>
@@ -165,7 +162,7 @@ const Podcast = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {podcast.episodes.map((el, idx) => {
+                      {episodes.map((el, idx) => {
                         return (
                           <tr
                             key={el.trackId}
@@ -179,7 +176,7 @@ const Podcast = () => {
                             >
                               <Link
                                 to={`/podcast/${id}/episode/${el.trackId}`}
-                                title={el.trackName}
+                                className="text-blue-400"
                               >
                                 {el.trackName}
                               </Link>
@@ -198,7 +195,7 @@ const Podcast = () => {
                   <legend className="text-gray-500 text-xs mt-4">
                     A list of 20 episodes of the "
                     <span className="inline-block underline">
-                      {podcast.data.trackName}
+                      {podcast.trackName}
                     </span>
                     " podcast is displayed above following the API endpoint
                     parameter limit.

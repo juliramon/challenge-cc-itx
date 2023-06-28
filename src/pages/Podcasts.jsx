@@ -15,7 +15,7 @@ const Podcasts = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { isLoading, data, status, error } = useQuery(
+  const { isLoading, data, error } = useQuery(
     ["podcasts"],
     service.getPodcasts,
     {

@@ -5,6 +5,8 @@ import { Routes, Route } from "react-router-dom";
 import Podcasts from "./pages/Podcasts";
 import Podcast from "./pages/Podcast";
 import Layout from "./components/layouts/Layout";
+import Episode from "./pages/Episode";
+import { useState } from "react";
 
 const App = () => {
   const cacheTime = 60 * 24 * (60 * 1000); // 24 hours
@@ -33,6 +35,10 @@ const App = () => {
           <Route path="/" element={<Layout />}>
             <Route index element={<Podcasts />} />
             <Route path="/podcast/:id" element={<Podcast />} />
+            <Route
+              path="/podcast/:id/episode/:episodeId"
+              element={<Episode />}
+            />
           </Route>
         </Routes>
       </QueryClientProvider>
