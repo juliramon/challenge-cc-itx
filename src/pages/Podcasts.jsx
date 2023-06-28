@@ -92,7 +92,7 @@ const Podcasts = ({ setLoader }) => {
             : podcasts.filteredPodcasts.map((el, idx) => (
                 <article
                   className="w-full sm:w-1/2 lg:w-1/4 px-4 mb-8"
-                  key={idx}
+                  key={el?.["id"]?.["attributes"]?.["im:id"]}
                 >
                   <Podcast data={el} />
                 </article>

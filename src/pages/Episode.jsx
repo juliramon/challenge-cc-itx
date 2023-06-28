@@ -23,8 +23,6 @@ const Episode = ({ setLoader }) => {
     }
   );
 
-  console.log(isFetched);
-
   useEffect(() => {
     setLoader(false);
 
@@ -33,22 +31,17 @@ const Episode = ({ setLoader }) => {
       Object.keys(podcast).length === 0
     ) {
       if (!isFetched) {
-        console.log("test");
         data = queryClient.getQueryData({
           queryKey: ["podcast", id],
         });
       }
 
-      console.log(isFetched);
-
       if (!data) {
-        console.log("in");
-        console.log(data);
         refetch();
         return;
       }
 
-      const contents = JSON.parse(data?.contents).results;
+      const contents = JSON.parse(data.contents).results;
       const episodeData = contents
         .slice(1)
         .find((el) => el.trackId === parseInt(episodeId));
@@ -83,11 +76,11 @@ const Episode = ({ setLoader }) => {
                 </div>
               ) : (
                 <div className="flex items-center justify-center mx-auto w-48 h-48 mb-4 bg-gray-300 rounded overflow-hidden">
-                  <Link to={`/podcast/${id}`} title={podcast.collectionName}>
+                  <Link to={`/podcast/${id}`} title={podcast?.collectionName}>
                     <picture className="block w-48 h-48">
                       <img
-                        src={podcast.artworkUrl600}
-                        alt={podcast.collectionName}
+                        src={podcast?.artworkUrl600}
+                        alt={podcast?.collectionName}
                         width={48}
                         height={48}
                         className="w-full h-full object-cover"
@@ -109,10 +102,10 @@ const Episode = ({ setLoader }) => {
                     <li>
                       <Link
                         to={`/podcast/${id}`}
-                        title={podcast.collectionName}
+                        title={podcast?.collectionName}
                       >
                         <h3 className="font-bold text-lg text-black hover:text-blue-400 transition-all duration-300 ease-in-out">
-                          {podcast.collectionName}
+                          {podcast?.collectionName}
                         </h3>
                       </Link>
                     </li>
@@ -121,7 +114,7 @@ const Episode = ({ setLoader }) => {
                         to={`/podcast/${id}`}
                         className="text-gray-600 italic inline-block"
                       >
-                        by {podcast.artistName}
+                        by {podcast?.artistName}
                       </Link>
                     </li>
                   </ul>
@@ -149,27 +142,33 @@ const Episode = ({ setLoader }) => {
           <article className="w-full md:w-9/12 px-4">
             <div className="shadow-md rounded p-5">
               {isLoading ? (
-                <div role="status" class="space-y-2.5 animate-pulse max-w-lg">
+                <div
+                  role="status"
+                  className="space-y-2.5 animate-pulse max-w-lg"
+                >
                   {[...Array(5).keys()].map((el, idx) => (
-                    <div class="flex items-center w-full space-x-2">
-                      <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
-                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24"></div>
-                      <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-full"></div>
+                    <div
+                      key={idx}
+                      className="flex items-center w-full space-x-2"
+                    >
+                      <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
+                      <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24"></div>
+                      <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-full"></div>
                     </div>
                   ))}
 
-                  <span class="sr-only">Loading...</span>
+                  <span className="sr-only">Loading...</span>
                 </div>
               ) : (
                 <>
-                  <h2>{episode.trackName}</h2>
+                  <h1>{episode?.trackName}</h1>
                   <div
-                    className="text-block mt-3"
-                    dangerouslySetInnerHTML={{ __html: episode.description }}
+                    className="text-block text-gray-600 mt-3"
+                    dangerouslySetInnerHTML={{ __html: episode?.description }}
                   ></div>
                   <div className="mt-6 border-t border-slate-200 pt-6">
                     <audio
-                      src={episode.episodeUrl}
+                      src={episode?.episodeUrl}
                       controls
                       className="w-full sm:w-1/2"
                     />

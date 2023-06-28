@@ -65,7 +65,7 @@ const Podcast = ({ setLoader }) => {
                 <div className="flex items-center justify-center mx-auto w-48 h-48 mb-4 bg-gray-300 rounded overflow-hidden">
                   <picture className="block w-48 h-48">
                     <img
-                      src={podcast.artworkUrl600}
+                      src={podcast?.artworkUrl600}
                       alt=""
                       width={48}
                       height={48}
@@ -86,12 +86,12 @@ const Podcast = ({ setLoader }) => {
                   <ul className="list-none m-0 p-0">
                     <li>
                       <h3 className="font-bold text-lg">
-                        {podcast.collectionName}
+                        {podcast?.collectionName}
                       </h3>
                     </li>
                     <li>
                       <span className="text-gray-600 italic inline-block">
-                        by {podcast.artistName}
+                        by {podcast?.artistName}
                       </span>
                     </li>
                   </ul>
@@ -127,7 +127,7 @@ const Podcast = ({ setLoader }) => {
                 ) : (
                   <div className="flex items-center text-xl">
                     <h2 className="my-0 font-bold">Episodes:</h2>
-                    <span className="ml-2">{podcast.trackCount}</span>
+                    <span className="ml-2">{podcast?.trackCount}</span>
                   </div>
                 )}
               </div>
@@ -180,7 +180,7 @@ const Podcast = ({ setLoader }) => {
                                 to={`/podcast/${id}/episode/${el.trackId}`}
                                 className="text-blue-400"
                               >
-                                {el.trackName}
+                                {el?.trackName}
                               </Link>
                             </th>
                             <td className="px-6 py-4">
@@ -197,7 +197,7 @@ const Podcast = ({ setLoader }) => {
                   <legend className="text-gray-500 text-xs mt-4">
                     A list of 20 episodes of the "
                     <span className="inline-block underline">
-                      {podcast.trackName}
+                      {podcast?.trackName}
                     </span>
                     " podcast is displayed above following the API endpoint
                     parameter limit.
