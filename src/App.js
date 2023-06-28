@@ -6,7 +6,7 @@ import Podcasts from "./pages/Podcasts";
 import Podcast from "./pages/Podcast";
 import Layout from "./components/layouts/Layout";
 import Episode from "./pages/Episode";
-import { useState } from "react";
+import Error404 from "./pages/404";
 
 const App = () => {
   const cacheTime = 60 * 24 * (60 * 1000); // 24 hours
@@ -39,6 +39,7 @@ const App = () => {
               path="/podcast/:id/episode/:episodeId"
               element={<Episode />}
             />
+            <Route path="*" element={<Error404 />} />
           </Route>
         </Routes>
       </QueryClientProvider>
