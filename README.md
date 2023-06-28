@@ -5,7 +5,7 @@ Frontend repository for the code challenge for Cc x Itx
 ## Developer
 Juli Ramon
 
-## Demo
+## Demo
 A functional demo of the SPA is available here: [https://challenge-cc-itx.vercel.app/](https://challenge-cc-itx.vercel.app/)
 
 ## Epics
