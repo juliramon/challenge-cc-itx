@@ -9,7 +9,7 @@ Juli Ramon
 A functional demo of the SPA is available here: [https://challenge-cc-itx.vercel.app/](https://challenge-cc-itx.vercel.app/)
 
 ## Epics
-– Index view (Podcasts)
+- Index view (Podcasts)
 - Podcast view (Podcast)
 - Episode view (Episode)
 - Heading (Layout)
