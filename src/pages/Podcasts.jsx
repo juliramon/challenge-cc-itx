@@ -1,42 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import PodcastsService from "../services/podcastsService";
 import PodcastSkeleton from "../components/miniatures/PodcastSkeleton";
 import Podcast from "../components/miniatures/Podcast";
+import useGetPodcasts from "../api/use-get-podcasts";
 
 const Podcasts = ({ setLoader }) => {
-  const service = new PodcastsService();
+  const { isLoading, data, error } = useGetPodcasts();
 
+  const [searchQuery, setSearchQuery] = useState("");
   const [podcasts, setPodcasts] = useState({
-    data: [],
     entries: [],
     filteredPodcasts: [],
   });
-
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const { isLoading, data, error } = useQuery(
-    ["podcasts"],
-    service.getPodcasts,
-    {
-      staleTime: 60 * 24 * (60 * 1000), // 24 hours
-      cacheTime: 60 * 24 * (60 * 1000), // 24 hours
-    }
-  );
 
   useEffect(() => {
     setLoader(false);
 
     if (!isLoading && podcasts.entries.length === 0) {
-      const { contents } = data;
-      const { feed } = JSON.parse(contents);
-      const { entry } = feed;
-
       setPodcasts({
         ...podcasts,
-        data: feed,
-        entries: entry,
-        filteredPodcasts: entry,
+        entries: data.feed.entry,
+        filteredPodcasts: data.feed.entry,
         success: true,
       });
     }

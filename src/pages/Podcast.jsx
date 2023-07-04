@@ -1,36 +1,23 @@
 import React, { useEffect, useState } from "react";
-import PodcastsService from "../services/podcastsService";
-import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import {
+  checkIfObjectIsEmpty,
   formatDateTimeToISODate,
   formatMsToISODuration,
 } from "../utils/helpers";
+import useGetPodcast from "../api/use-get-podcast";
 
 const Podcast = ({ setLoader }) => {
-  const service = new PodcastsService();
   const { id } = useParams();
+  const { isLoading, data, error } = useGetPodcast(id);
 
   const [podcast, setPodcast] = useState({});
   const [episodes, setEpisodes] = useState([]);
 
-  const { isLoading, data, error } = useQuery(
-    ["podcast", id],
-    () => service.getPodcastById(id),
-    {
-      staleTime: 60 * 24 * (60 * 1000), // 24 hours
-      cacheTime: 60 * 24 * (60 * 1000), // 24 hours
-    }
-  );
-
   useEffect(() => {
     setLoader(false);
 
-    if (
-      !isLoading &&
-      Object.keys(podcast).length === 0 &&
-      episodes.length === 0
-    ) {
+    if (!isLoading && checkIfObjectIsEmpty(podcast) && episodes.length === 0) {
       const contents = JSON.parse(data.contents).results;
 
       setPodcast(contents[0]);
