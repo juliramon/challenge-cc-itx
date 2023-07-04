@@ -3,8 +3,7 @@ import PodcastsService from "./client";
 
 const useGetPodcast = (podcastId, enabled = true) => {
   const service = new PodcastsService();
-  const query = useQuery(
-    ["podcasts"],
+  const query = useQuery(["podcast", podcastId], () =>
     service.getPodcastById(podcastId, { enabled: enabled })
   );
   return query;

@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { checkIfObjectIsEmpty } from "../utils/helpers";
 import useGetPodcast from "../api/use-get-podcast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Episode = ({ setLoader }) => {
   const { id } = useParams();
   const { episodeId } = useParams();
+
+  const queryClient = new useQueryClient();
 
   const [episode, setEpisode] = useState({});
   const [podcast, setPodcast] = useState({});
@@ -17,7 +20,9 @@ const Episode = ({ setLoader }) => {
 
     if (checkIfObjectIsEmpty(episode) && checkIfObjectIsEmpty(podcast)) {
       if (!isFetched) {
-        refetch();
+        data = queryClient.getQueryData({
+          queryKey: ["podcast", id],
+        });
       }
 
       if (!data) {

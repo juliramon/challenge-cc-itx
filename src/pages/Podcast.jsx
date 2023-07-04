@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import useGetPodcast from "../api/use-get-podcast";
 import {
   checkIfObjectIsEmpty,
   formatDateTimeToISODate,
   formatMsToISODuration,
 } from "../utils/helpers";
-import useGetPodcast from "../api/use-get-podcast";
 
 const Podcast = ({ setLoader }) => {
   const { id } = useParams();
@@ -17,13 +17,18 @@ const Podcast = ({ setLoader }) => {
   useEffect(() => {
     setLoader(false);
 
-    if (!isLoading && checkIfObjectIsEmpty(podcast) && episodes.length === 0) {
+    if (
+      !isLoading &&
+      checkIfObjectIsEmpty(podcast) &&
+      episodes.length === 0 &&
+      data
+    ) {
       const contents = JSON.parse(data.contents).results;
 
       setPodcast(contents[0]);
       setEpisodes(contents.slice(1));
     }
-  }, [isLoading, podcast, episodes]);
+  }, [isLoading, podcast, episodes, data]);
 
   if (error)
     console.error(
