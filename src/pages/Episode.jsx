@@ -1,35 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import PodcastsService from "../services/podcastsService";
+import { checkIfObjectIsEmpty } from "../utils/helpers";
+import useGetPodcast from "../api/use-get-podcast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Episode = ({ setLoader }) => {
-  const service = new PodcastsService();
-  const queryClient = new useQueryClient();
-
   const { id } = useParams();
   const { episodeId } = useParams();
+
+  const queryClient = new useQueryClient();
 
   const [episode, setEpisode] = useState({});
   const [podcast, setPodcast] = useState({});
 
-  let { isFetched, isLoading, data, error, refetch } = useQuery(
-    ["podcast", id],
-    () => service.getPodcastById(id),
-    {
-      enabled: false,
-      staleTime: 60 * 24 * (60 * 1000), // 24 hours
-      cacheTime: 60 * 24 * (60 * 1000), // 24 hours
-    }
-  );
+  let { isFetched, isLoading, data, error, refetch } = useGetPodcast(id, false);
 
   useEffect(() => {
     setLoader(false);
 
-    if (
-      Object.keys(episode).length === 0 &&
-      Object.keys(podcast).length === 0
-    ) {
+    if (checkIfObjectIsEmpty(episode) && checkIfObjectIsEmpty(podcast)) {
       if (!isFetched) {
         data = queryClient.getQueryData({
           queryKey: ["podcast", id],

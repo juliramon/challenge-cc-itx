@@ -28,7 +28,7 @@ export function formatDateTimeToISODate(dateTime) {
 }
 
 /** formatMsToISODuration
- * Utilit function to converte milliseconds values to formatted value
+ * Utility function to convert milliseconds values to formatted value
  *
  * The function expects one parameter:
  * @param string msTime: The raw milliseconds value
@@ -42,4 +42,15 @@ export function formatMsToISODuration(msTime) {
     date.getUTCSeconds(),
   ];
   return dateElements.map((s) => String(s).padStart(2, "0")).join(":");
+}
+
+/** checkIfObjectIsEmptu
+ * Utility function to check if a certain object is empty or not
+ *
+ * The function expects one parameter:
+ * @param object objectEl: The object to evaluate
+ * @return boolean
+ */
+export function checkIfObjectIsEmpty(objectEl) {
+  return Object.keys(objectEl).length === 0;
 }
