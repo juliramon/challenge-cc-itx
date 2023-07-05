@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { checkIfObjectIsEmpty } from "../utils/helpers";
-import useGetPodcast from "../api/use-get-podcast";
 import { useQueryClient } from "@tanstack/react-query";
+import { useGetPodcast } from "../queries/podcasts.queries";
 
 const Episode = ({ setLoader }) => {
   const { id } = useParams();

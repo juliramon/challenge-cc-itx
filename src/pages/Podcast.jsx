@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import useGetPodcast from "../api/use-get-podcast";
 import {
   checkIfObjectIsEmpty,
   formatDateTimeToISODate,
   formatMsToISODuration,
 } from "../utils/helpers";
+import { useGetPodcast } from "../queries/podcasts.queries";
 
 const Podcast = ({ setLoader }) => {
   const { id } = useParams();

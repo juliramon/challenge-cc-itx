@@ -22,7 +22,6 @@ export function checkElementImages(arrImages) {
  * @param string dateTime: The raw datetime value
  * @return string
  */
-
 export function formatDateTimeToISODate(dateTime) {
   return new Date(dateTime).toLocaleDateString();
 }

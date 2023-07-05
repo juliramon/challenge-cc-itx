@@ -2,8 +2,8 @@ import { useState } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
-import { Routes, Route } from "react-router-dom";
-import { queryClient } from "./api/query-client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { queryClient } from "./queries/queryClient";
 import Podcasts from "./pages/Podcasts";
 import Podcast from "./pages/Podcast";
 import Episode from "./pages/Episode";
@@ -22,29 +22,32 @@ const App = () => {
 
   const [isLoaderVisible, setIsLoaderVisible] = useState(true);
 
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout isLoaderVisible={isLoaderVisible} />,
+      errorElement: <Error404 />,
+      children: [
+        {
+          index: true,
+          element: <Podcasts setLoader={setIsLoaderVisible} />,
+        },
+        {
+          path: "/podcast/:id",
+          element: <Podcast setLoader={setIsLoaderVisible} />,
+        },
+        {
+          path: "/podcast/:id/episode/:episodeId",
+          element: <Episode setLoader={setIsLoaderVisible} />,
+        },
+      ],
+    },
+  ]);
+
   return (
     <main className="app">
       <QueryClientProvider client={queryClient}>
-        <Routes>
-          <Route
-            path="/"
-            element={<Layout isLoaderVisible={isLoaderVisible} />}
-          >
-            <Route
-              index
-              element={<Podcasts setLoader={setIsLoaderVisible} />}
-            />
-            <Route
-              path="/podcast/:id"
-              element={<Podcast setLoader={setIsLoaderVisible} />}
-            />
-            <Route
-              path="/podcast/:id/episode/:episodeId"
-              element={<Episode setLoader={setIsLoaderVisible} />}
-            />
-            <Route path="*" element={<Error404 />} />
-          </Route>
-        </Routes>
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </main>
   );

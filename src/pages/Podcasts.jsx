@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PodcastSkeleton from "../components/miniatures/PodcastSkeleton";
 import Podcast from "../components/miniatures/Podcast";
-import useGetPodcasts from "../api/use-get-podcasts";
+import { useGetPodcasts } from "../queries/podcasts.queries";
 
 const Podcasts = ({ setLoader }) => {
   const { isLoading, data, error } = useGetPodcasts();
@@ -57,12 +57,17 @@ const Podcasts = ({ setLoader }) => {
                 placeholder="Filter podcasts..."
                 onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
                 value={searchQuery}
+                aria-label="Filter podcasts"
               />
             </fieldset>
           </form>
         </div>
 
-        <div className="flex flex-wrap items-stretch -mx-4 mt-8">
+        <div
+          id="podcastsGrid"
+          aria-label="Grid of podcasts"
+          className="flex flex-wrap items-stretch -mx-4 mt-8"
+        >
           {isLoading
             ? [...Array(8).keys()].map((el, idx) => (
                 <article
