@@ -6,7 +6,9 @@ const Loader = ({ isLoaderVisible }) => {
       className={`w-5 h-5 bg-blue-500 rounded-full absolute top-5 right-5 animate-ping ${
         isLoaderVisible ? "block" : "hidden"
       }`}
-    ></span>
+    >
+      <span className="sr-only">Loading...</span>
+    </span>
   );
 };
 

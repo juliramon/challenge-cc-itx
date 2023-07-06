@@ -2,7 +2,10 @@ import React from "react";
 
 const SquareAvatarSkeleton = () => {
   return (
-    <div className="flex items-center justify-center mx-auto w-48 h-48 mb-4 bg-gray-300 rounded dark:bg-gray-700 animate-pulse">
+    <div
+      aria-label="Square avatar skeleton"
+      className="flex items-center justify-center mx-auto w-48 h-48 mb-4 bg-gray-300 rounded dark:bg-gray-700 animate-pulse"
+    >
       <svg
         className="w-12 h-12 text-gray-200 dark:text-gray-600"
         xmlns="http://www.w3.org/2000/svg"

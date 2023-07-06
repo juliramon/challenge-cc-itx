@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { checkIfObjectIsEmpty } from "../utils/helpers";
 import { useQueryClient } from "@tanstack/react-query";

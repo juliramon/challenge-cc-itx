@@ -1,5 +1,3 @@
-import React from "react";
-
 const Error404 = () => {
   return (
     <section className="py-10 md:py-20 lg:py-36 relative">

@@ -8,6 +8,7 @@ const Avatar = ({ imgSrc, imgAlt }) => {
           src={imgSrc}
           alt={imgAlt}
           className="object-cover w-full h-full"
+          aria-label="Avatar"
           loading="lazy"
         />
       </picture>

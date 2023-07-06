@@ -1,11 +1,11 @@
-import { render, screen } from "@testing-library/react";
-import App from "./App";
+import { render } from "@testing-library/react";
 import { unmountComponentAtNode } from "react-dom";
+import App from "./App";
 
 describe("<App />", () => {
   test("Renders the project root", () => {
-    const div = document.createElement("div");
     render(<App />);
+    const div = document.createElement("div");
     unmountComponentAtNode(div);
   });
 });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PodcastSkeleton from "../components/miniatures/PodcastSkeleton";
 import Podcast from "../components/miniatures/Podcast";
 import { useGetPodcasts } from "../queries/podcasts.queries";
