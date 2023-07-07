@@ -31,17 +31,4 @@ describe("<Podcasts />", () => {
 
     expect(searchInputElement).toHaveValue("the joe budden podcast");
   });
-
-  //   test("Renders a list of podcasts", () => {
-  //     render(
-  //       <QueryClientProvider client={queryClient}>
-  //         <BrowserRouter>
-  //           <Podcasts setLoader{() => {}} />
-  //         </BrowserRouter>
-  //       </QueryClientProvider>
-  //     );
-
-  //     const listPodcastElements = screen.getAllByRole("article");
-  //     expect(listPodcastElements).toHaveLength(podcasts.length);
-  //   });
 });

@@ -30,10 +30,20 @@ const Podcast = ({ setLoader }) => {
     }
   }, [isLoading, podcast, episodes, data]);
 
-  if (error)
+  if (error) {
     console.error(
       "An error has occurred. Please try again later:" + error.message
     );
+    return (
+      <div
+        role="alert"
+        aria-label="An error has occured"
+        className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+      >
+        An error has occured. Please try again later
+      </div>
+    );
+  }
 
   return (
     <section className="py-8">
@@ -70,7 +80,7 @@ const Podcast = ({ setLoader }) => {
               )}
               <div className="border-t border-slate-300 py-4">
                 {isLoading ? (
-                  <div className="animate-pulse">
+                  <div aria-label="Loading" className="animate-pulse">
                     <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-44 mb-2.5"></div>
                     <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-36"></div>
                   </div>
