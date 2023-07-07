@@ -1,14 +1,9 @@
-import { screen, render } from "@testing-library/react";
+import { screen, render } from "../../test-utils";
 import Podcast from "./Podcast";
-import { BrowserRouter } from "react-router-dom";
 
 describe("<Podcast miniature />", () => {
   test("Podcast miniature renders correctly", () => {
-    render(
-      <BrowserRouter>
-        <Podcast />
-      </BrowserRouter>
-    );
+    render(<Podcast />);
 
     const linkElement = screen.getByRole("link");
     expect(linkElement).toBeInTheDocument();
@@ -21,11 +16,7 @@ describe("<Podcast miniature />", () => {
   });
 
   test("Podcast miniature renders placeholder values if prop data is null", () => {
-    render(
-      <BrowserRouter>
-        <Podcast data={null} />
-      </BrowserRouter>
-    );
+    render(<Podcast data={null} />);
 
     const avatarSkeleton = screen.getByLabelText(/avatar skeleton/i);
     expect(avatarSkeleton).toBeInTheDocument();
@@ -65,11 +56,7 @@ describe("<Podcast miniature />", () => {
       },
     };
 
-    render(
-      <BrowserRouter>
-        <Podcast data={podcast} />
-      </BrowserRouter>
-    );
+    render(<Podcast data={podcast} />);
 
     const avatarElement = screen.getByLabelText(/avatar/i);
     expect(avatarElement).toBeInTheDocument();

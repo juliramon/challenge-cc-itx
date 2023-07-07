@@ -1,14 +1,9 @@
-import { BrowserRouter } from "react-router-dom";
 import Layout from "./Layout";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "../../test-utils";
 
 describe("<Layout />", () => {
   test("Layout renders correctly", () => {
-    render(
-      <BrowserRouter>
-        <Layout />
-      </BrowserRouter>
-    );
+    render(<Layout />);
 
     const headerElement = screen.getByRole("header");
     expect(headerElement).toBeInTheDocument();
