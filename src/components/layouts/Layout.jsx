@@ -3,7 +3,7 @@ import Loader from "../global/Loader";
 
 const Layout = ({ isLoaderVisible }) => {
   return (
-    <header className="pt-12 relative">
+    <header role="header" className="pt-12 relative">
       <Loader isLoaderVisible={isLoaderVisible} />
       <div className="container">
         <nav className="border-b border-slate-300 pb-4">

@@ -7,7 +7,7 @@
  * @return string
  */
 export function checkElementImages(arrImages) {
-  const reverseImages = arrImages.toReversed();
+  const reverseImages = [...arrImages].reverse();
   for (let i = 0; i < reverseImages.length; i++) {
     if (i.label !== "") return reverseImages[i].label;
     return null;

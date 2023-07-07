@@ -1,5 +1,3 @@
-import React from "react";
-
 const Avatar = ({ imgSrc, imgAlt }) => {
   return (
     <div className="flex justify-center -mt-16 mb-4">
