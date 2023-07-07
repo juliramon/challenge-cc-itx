@@ -2,7 +2,10 @@ const Error404 = () => {
   return (
     <section className="py-10 md:py-20 lg:py-36 relative">
       <div className="container relative z-10">
-        <div className="flex flex-wrap items-start justify-center -mx-6">
+        <div
+          className="flex flex-wrap items-start justify-center -mx-6"
+          role="alert"
+        >
           <div className="w-full md:w-auto flex justify-center px-6">
             <span className="text-primary-600 text-6xl lg:text-8xl font-heading font-bold !leading-none inline-block">
               404

@@ -44,7 +44,10 @@ const Podcasts = ({ setLoader }) => {
     <section className="pb-12">
       <div className="container">
         <div className="flex items-center justify-end mt-8">
-          <span className="bg-blue-600 inline-flex items-center text-white rounded-full font-semibold px-2.5 py-0.5 mr-2">
+          <span
+            aria-label="Number of podcasts"
+            className="bg-blue-600 inline-flex items-center text-white rounded-full font-semibold px-2.5 py-0.5 mr-2"
+          >
             {podcasts.filteredPodcasts.length}
           </span>
 
