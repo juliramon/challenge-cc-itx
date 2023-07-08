@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { checkIfObjectIsEmpty } from "../utils/helpers";
-import useGetPodcast from "../api/use-get-podcast";
-import { useQueryClient } from "@tanstack/react-query";
+import { useGetPodcast } from "../queries/podcasts.queries";
+import { queryClient } from "../queries/queryClient";
 
 const Episode = ({ setLoader }) => {
   const { id } = useParams();
   const { episodeId } = useParams();
-
-  const queryClient = new useQueryClient();
 
   const [episode, setEpisode] = useState({});
   const [podcast, setPodcast] = useState({});
@@ -40,10 +38,20 @@ const Episode = ({ setLoader }) => {
     }
   }, [episode, podcast, data]);
 
-  if (error)
+  if (error) {
     console.error(
       "An error has occurred. Please try again later:" + error.message
     );
+    return (
+      <div
+        role="alert"
+        aria-label="An error has occured"
+        className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+      >
+        An error has occured. Please try again later
+      </div>
+    );
+  }
 
   return (
     <section className="py-8">
@@ -52,7 +60,10 @@ const Episode = ({ setLoader }) => {
           <aside className="w-full md:w-3/12 px-4">
             <div className="shadow-md rounded p-5">
               {isLoading ? (
-                <div className="flex items-center justify-center mx-auto w-48 h-48 mb-4 bg-gray-300 rounded overflow-hidden dark:bg-gray-700 animate-pulse">
+                <div
+                  aria-label="Loading"
+                  className="flex items-center justify-center mx-auto w-48 h-48 mb-4 bg-gray-300 rounded overflow-hidden dark:bg-gray-700 animate-pulse"
+                >
                   <svg
                     className="w-12 h-12 text-gray-200 dark:text-gray-600"
                     xmlns="http://www.w3.org/2000/svg"
@@ -158,6 +169,7 @@ const Episode = ({ setLoader }) => {
                   <div className="mt-6 border-t border-slate-200 pt-6">
                     <audio
                       src={episode?.episodeUrl}
+                      aria-label="Episode audio"
                       controls
                       className="w-full sm:w-1/2"
                     />

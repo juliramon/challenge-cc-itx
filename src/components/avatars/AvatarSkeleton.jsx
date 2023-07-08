@@ -1,8 +1,9 @@
-import React from "react";
-
 const AvatarSkeleton = () => {
   return (
-    <div className="flex items-center justify-center mx-auto w-28 h-28 mb-4 bg-gray-300 rounded-full dark:bg-gray-700 -mt-16">
+    <div
+      aria-label="Avatar skeleton"
+      className="flex items-center justify-center mx-auto w-28 h-28 mb-4 bg-gray-300 rounded-full dark:bg-gray-700 -mt-16"
+    >
       <svg
         className="w-12 h-12 text-gray-200 dark:text-gray-600"
         xmlns="http://www.w3.org/2000/svg"

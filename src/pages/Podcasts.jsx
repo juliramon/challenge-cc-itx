@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PodcastSkeleton from "../components/miniatures/PodcastSkeleton";
 import Podcast from "../components/miniatures/Podcast";
-import useGetPodcasts from "../api/use-get-podcasts";
+import { useGetPodcasts } from "../queries/podcasts.queries";
 
 const Podcasts = ({ setLoader }) => {
-  const { isLoading, data, error } = useGetPodcasts();
+  const { isLoading, data, error, isSuccess } = useGetPodcasts();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [podcasts, setPodcasts] = useState({
@@ -15,11 +15,11 @@ const Podcasts = ({ setLoader }) => {
   useEffect(() => {
     setLoader(false);
 
-    if (!isLoading && podcasts.entries.length === 0) {
+    if (!isLoading && podcasts?.entries?.length === 0) {
       setPodcasts({
         ...podcasts,
-        entries: data.feed.entry,
-        filteredPodcasts: data.feed.entry,
+        entries: data?.feed?.entry,
+        filteredPodcasts: data?.feed?.entry,
         success: true,
       });
     }
@@ -35,17 +35,30 @@ const Podcasts = ({ setLoader }) => {
     setPodcasts({ ...podcasts, filteredPodcasts: filteredPodcasts });
   }, [searchQuery]);
 
-  if (error)
+  if (error) {
     console.error(
       "An error has occurred. Please try again later:" + error.message
     );
+    return (
+      <div
+        role="alert"
+        aria-label="An error has occured"
+        className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+      >
+        An error has occured. Please try again later
+      </div>
+    );
+  }
 
   return (
     <section className="pb-12">
       <div className="container">
         <div className="flex items-center justify-end mt-8">
-          <span className="bg-blue-600 inline-flex items-center text-white rounded-full font-semibold px-2.5 py-0.5 mr-2">
-            {podcasts.filteredPodcasts.length}
+          <span
+            aria-label="Number of podcasts"
+            className="bg-blue-600 inline-flex items-center text-white rounded-full font-semibold px-2.5 py-0.5 mr-2"
+          >
+            {podcasts?.filteredPodcasts?.length}
           </span>
 
           <form onSubmit={(e) => e.preventDefault()}>
@@ -57,29 +70,43 @@ const Podcasts = ({ setLoader }) => {
                 placeholder="Filter podcasts..."
                 onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
                 value={searchQuery}
+                aria-label="Filter podcasts"
               />
             </fieldset>
           </form>
         </div>
 
-        <div className="flex flex-wrap items-stretch -mx-4 mt-8">
-          {isLoading
-            ? [...Array(8).keys()].map((el, idx) => (
+        <div
+          id="podcastsGrid"
+          data-testid={isSuccess ? "has-podcasts" : "no-podcasts"}
+          aria-label="Grid of podcasts"
+          className="flex flex-wrap items-stretch -mx-4 mt-8"
+        >
+          {isLoading ? (
+            <div
+              aria-label="loading"
+              className="flex flex-wrap items-stretch px-4 -mx-4"
+            >
+              {[...Array(8).keys()].map((el, idx) => (
                 <article
                   className="w-full sm:w-1/2 lg:w-1/4 px-4 mb-8"
                   key={idx}
                 >
                   <PodcastSkeleton />
                 </article>
-              ))
-            : podcasts.filteredPodcasts.map((el, idx) => (
-                <article
-                  className="w-full sm:w-1/2 lg:w-1/4 px-4 mb-8"
-                  key={el?.["id"]?.["attributes"]?.["im:id"]}
-                >
-                  <Podcast data={el} />
-                </article>
               ))}
+            </div>
+          ) : isSuccess ? (
+            podcasts?.filteredPodcasts?.map((el, idx) => (
+              <article
+                aria-label="Podcast"
+                className="w-full sm:w-1/2 lg:w-1/4 px-4 mb-8"
+                key={el?.["id"]?.["attributes"]?.["im:id"]}
+              >
+                <Podcast data={el} />
+              </article>
+            ))
+          ) : null}
         </div>
       </div>
     </section>

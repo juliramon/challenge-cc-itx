@@ -7,7 +7,7 @@
  * @return string
  */
 export function checkElementImages(arrImages) {
-  const reverseImages = arrImages.toReversed();
+  const reverseImages = [...arrImages].reverse();
   for (let i = 0; i < reverseImages.length; i++) {
     if (i.label !== "") return reverseImages[i].label;
     return null;
@@ -22,7 +22,6 @@ export function checkElementImages(arrImages) {
  * @param string dateTime: The raw datetime value
  * @return string
  */
-
 export function formatDateTimeToISODate(dateTime) {
   return new Date(dateTime).toLocaleDateString();
 }
