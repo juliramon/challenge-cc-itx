@@ -43,7 +43,7 @@ export function formatMsToISODuration(msTime) {
   return dateElements.map((s) => String(s).padStart(2, "0")).join(":");
 }
 
-/** checkIfObjectIsEmptu
+/** checkIfObjectIsEmpty
  * Utility function to check if a certain object is empty or not
  *
  * The function expects one parameter:
