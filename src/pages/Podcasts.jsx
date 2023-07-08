@@ -83,7 +83,10 @@ const Podcasts = ({ setLoader }) => {
           className="flex flex-wrap items-stretch -mx-4 mt-8"
         >
           {isLoading ? (
-            <div aria-label="loading">
+            <div
+              aria-label="loading"
+              className="flex flex-wrap items-stretch px-4 -mx-4"
+            >
               {[...Array(8).keys()].map((el, idx) => (
                 <article
                   className="w-full sm:w-1/2 lg:w-1/4 px-4 mb-8"
